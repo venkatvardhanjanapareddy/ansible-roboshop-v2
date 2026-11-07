@@ -25,7 +25,7 @@
 
     - name: create/update route 53 records
       amazon.aws.route53:
-        zone: Z07166913431ZYKE9ODG1
+        zone: "{{ domain_name }}"
         state: present
         ttl: 1
         type: A

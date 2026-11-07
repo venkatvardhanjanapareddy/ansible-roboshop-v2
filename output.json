@@ -1,8 +1,4 @@
-{
-    {
-
-
-    "results": [
+"results": [
             {
                 "ansible_loop_var": "item",
                 "changed": true,
@@ -1095,7 +1091,4 @@
                     ]
                 }
             }
-        ],
-        "skipped": false
-    }
-}
+        ]
