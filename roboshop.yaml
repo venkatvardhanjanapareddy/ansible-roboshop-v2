@@ -16,3 +16,15 @@
           - "roboshop-common"
         state: present
       loop: "{{ instances }}"
+      register: instance_output
+
+    - name: display instance o/p
+      debug:
+        msg: "{{ instance_output }}"
+
+    # - name: create/update route 53 records
+    #   amazon.aws.route53:
+    #     state: present
+    #     ttl: 1
+    #     type: A
+    #     value:
