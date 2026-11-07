@@ -1,0 +1,18 @@
+- name: creating instnces and updating route53
+  hosts: local
+  connection: local
+  vars:
+    ami_id: ami-0055977a6e828a4f4
+    instance_type: t3.micro
+    instances: ["mongodb", "redis", "mysql", "rabbitmq"]
+  tasks:
+    - name: launch ec2 instane
+      amazon.aws.ec2_instance:
+        name: "roboshop-{{ item }}"
+        instance_type: "{{ instance_type }}"
+        image_id: "{{ ami_id }}"
+        security_groups:
+          - "roboshop-{{ item }}"
+          - "roboshop-common"
+        state: present
+      loop: "{{ instances }}"
