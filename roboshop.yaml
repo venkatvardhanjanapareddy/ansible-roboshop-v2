@@ -5,6 +5,7 @@
     ami_id: ami-0055977a6e828a4f4
     instance_type: t3.micro
     instances: ["mongodb", "redis", "mysql", "rabbitmq"]
+    domain_name: vardhandaws.online
   tasks:
     - name: launch ec2 instane
       amazon.aws.ec2_instance:
@@ -18,13 +19,19 @@
       loop: "{{ instances }}"
       register: instance_output
 
-    - name: display instance o/p
-      debug:
-        msg: "{{ instance_output }}"
+    # - name: display instance o/p
+    #   debug:
+    #     msg: "{{ instance_output }}"
 
-    # - name: create/update route 53 records
-    #   amazon.aws.route53:
-    #     state: present
-    #     ttl: 1
-    #     type: A
-    #     value:
+    - name: create/update route 53 records
+      amazon.aws.route53:
+        zone: Z07166913431ZYKE9ODG1
+        state: present
+        ttl: 1
+        type: A
+        value: "{{ item.instances[0].private_ip_address }}"
+        record: "{{ item.item }}.{{ domain_name }}"
+        overwrite: true
+      loop: "{{ instance_output.results }}"
+# intance_output.results loop chesi
+# then use the item from the list instances.private_ip_address
