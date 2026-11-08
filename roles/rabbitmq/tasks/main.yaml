@@ -1,0 +1,27 @@
+- name: copy repo file to /etc/yum.repos.d/rabbitmq.repo
+  copy:
+    src: rabbitmq.repo
+    dest: /etc/yum.repos.d/rabbitmq.repo
+
+- name: install erlang rabbitmq-server
+  dnf:
+    name:
+      - erlang
+      - rabbitmq-server
+    state: present
+
+- name: enable and start
+  service:
+    name: rabbitmq-server
+    state: started
+    enabled: yes
+
+- name: adding rabbit mq user and pswd
+  community.rabbitmq.rabbitmq_user:
+    user: "{{ rabbitmq_roboshop_user }}"
+    password: "{{ rabbitmq_roboshop_user_password }}"
+    vhost: /
+    configure_priv: .*
+    read_priv: .*
+    write_priv: .*
+    state: present
