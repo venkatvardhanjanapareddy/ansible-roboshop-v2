@@ -1,7 +1,7 @@
 - name: copy repo file
   copy:
     src: mongo.repo
-    path: /etc/yum.repos.d/mongo.repo
+    dest: /etc/yum.repos.d/mongo.repo
 
 - name: install monogodb-org
   dnf:
