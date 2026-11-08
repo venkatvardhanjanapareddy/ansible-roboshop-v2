@@ -1,0 +1,19 @@
+- name: enable redis7
+  command: dnf module enable redis:7 -y
+
+- name: install redis
+  dnf:
+    name: redis
+    state: present
+
+- name: allow access to all servers
+  replace:
+    path: /etc/redis/redis.conf
+    regexp: "127.0.0.1"
+    replace: "0.0.0.0"
+
+- name: enable and start redis
+  service:
+    name: redis
+    state: started
+    enabled: yes
