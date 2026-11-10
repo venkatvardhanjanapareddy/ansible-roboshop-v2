@@ -1,0 +1,41 @@
+- name: app setup
+  include_role:
+    name: common
+    tasks_from: app-setup # created system user, deletes old code and download new code
+
+- name: adding nodejs from common
+  include_role:
+    name: common
+    tasks_from: nodejs # this gets the nodejs module from /roles/common/tasks/nodejs
+
+- name: systemd service file
+  include_role:
+    name: common
+    tasks_from: systemd-setup.yaml
+
+- name: copy mongo.repo to /etc/yum.repos.d/mongo.repo
+  copy:
+    src: mongo.repo
+    dest: /etc/yum.repos.d/mongo.repo
+
+- name: install mongodb client
+  dnf:
+    name: mongodb-mongosh
+    state: present
+
+- name: check if products are loaded already
+  command: mongosh --host "{{ mongodb_host }}" --quiet --eval 'db.getSiblingDB("catalogue").products.countDocuments()'
+  register: product_count
+
+- name: print product_count
+  debug:
+    msg: "{{ product_count }}"
+
+- name: get items based on product count
+  command: mongosh --host "{{ mongodb_host }}" </app/db/master-data.js
+  when: product_count.stdout | int == 0
+
+- name: restart application
+  include_role:
+    name: common
+    tasks_from: restart-app # daemon reload, restart and enable
