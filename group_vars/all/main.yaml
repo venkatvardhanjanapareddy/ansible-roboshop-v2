@@ -4,6 +4,7 @@ mysql_root_password: "{{ vault_mysql_root_password}}"
 rabbitmq_roboshop_user: "{{ vault_rabbitmq_roboshop_user }}"
 rabbitmq_roboshop_user_password: "{{ vault_rabbitmq_roboshop_user_password }}"
 
+domain_name: vardhandaws.online
 mongodb_host: mongodb.vardhandaws.online
 redis_host: redis.vardhandaws.online
 mysql_host: mysql.vardhandaws.online
