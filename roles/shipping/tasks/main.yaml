@@ -7,3 +7,29 @@
   include_role:
     name: common
     tasks_from: java
+
+- name: system service file setup
+  include_role:
+    name: common
+    tasks_from: systemd-setup
+
+- name: check if cities data is loaded
+  command: mysql -h "{{ mysql_host }}" -u root -p{{ mysql_root_password }} -N -B -e "SELECT COUNT(*) FROM cities.cities;"
+  register: cities_count
+  ignore_errors: true
+
+- name: print the count
+  debug:
+    msg: "{{ cities_count }}"
+
+- name: load the data if count is 0
+  shell: mysql -h "{{ mysql_host }}" -uroot -p{{ mysql_root_password}} < /app/db/master-data.sql
+  when: cities_count.stdout | int == 0 or cities_count.rc != 0
+
+- name: create app user
+  shell: mysql -h "{{ mysql_host }}" -uroot -p{{ mysql_root_password }} < /app/db/app-user.sql
+
+- name: restart and enable
+  include_role:
+    name: common
+    tasks_from: restart-app
