@@ -1,0 +1,19 @@
+- name: app setup, delete old code and add new
+  include_role:
+    name: common
+    tasks_from: app-setup
+
+- name: python setup
+  include_role:
+    name: common
+    tasks_from: python
+
+- name: service file setup
+  include_role:
+    name: common
+    tasks_from: systemd-setup
+
+- name: reload, restart and enable service
+  include_role:
+    name: common
+    tasks_from: restart-app
