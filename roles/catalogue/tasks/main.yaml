@@ -32,7 +32,7 @@
     msg: "{{ product_count }}"
 
 - name: get items based on product count
-  command: mongosh --host "{{ mongodb_host }}" </app/db/master-data.js
+  command: mongosh --host "{{ mongodb_host }}" < /app/db/master-data.js
   when: product_count.stdout | int == 0
 
 - name: restart application
