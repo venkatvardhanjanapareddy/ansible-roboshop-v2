@@ -1,5 +1,5 @@
 - name: disable nginx
-  command: dnf module disable. nginx -y
+  command: dnf module disable nginx -y
 
 - name: enable nginx1.26
   command: dnf module enable nginx:1.26 -y
