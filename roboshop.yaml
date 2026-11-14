@@ -4,7 +4,19 @@
   vars:
     ami_id: ami-0055977a6e828a4f4
     instance_type: t3.micro
-    instances: ["mongodb", "redis", "mysql", "rabbitmq"]
+    instances:
+      [
+        "mongodb",
+        "redis",
+        "mysql",
+        "rabbitmq",
+        "catalogue",
+        "user",
+        "cart",
+        "shipping",
+        "payment",
+        "frontend",
+      ]
     domain_name: vardhandaws.online
     event: create
   tasks:
