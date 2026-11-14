@@ -7,7 +7,7 @@
       - maven
       - java-25-openjdk-devel
       - maven-openjdk25
-      - java
+      - mysql
     state: present
 
 - name: build application
